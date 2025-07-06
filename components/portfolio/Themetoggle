@@ -1,0 +1,36 @@
+import React, { useState, useEffect } from 'react';
+import { Sun, Moon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className="fixed top-6 right-6 z-50 glass-effect hover:bg-white/20 dark:hover:bg-gray-800/20 transition-all duration-300"
+      aria-label="Toggle theme"
+    >
+      {theme === 'light' ? (
+        <Moon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+      ) : (
+        <Sun className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+      )}
+    </Button>
+  );
+}

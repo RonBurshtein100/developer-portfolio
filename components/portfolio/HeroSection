@@ -1,0 +1,87 @@
+import React from 'react';
+import { Download, ArrowDown, Code, Database, Cloud } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+export default function HeroSection() {
+  const scrollToProjects = () => {
+    const element = document.getElementById('projects');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const downloadCV = () => {
+    // Create a dummy PDF download for demo purposes
+    const link = document.createElement('a');
+    link.href = 'data:application/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PAovVGl0bGUgKERldmVsb3BlciBDVikKL0NyZWF0b3IgKERldmVsb3BlciBQb3J0Zm9saW8pCi9Qcm9kdWNlciAoRGV2ZWxvcGVyIFBvcnRmb2xpbykKL0NyZWF0aW9uRGF0ZSAoRDoyMDI0MDEwMTAwMDAwMFopCj4+CmVuZG9iagp4cmVmCjAgMQowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL1NpemUgMQovUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKMTczCiUlRU9G';
+    link.download = 'developer-cv.pdf';
+    link.click();
+  };
+
+  return (
+    <section id="hero" className="min-h-screen flex items-center justify-center pt-20 pb-16 px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="mb-8">
+          <div className="inline-flex items-center justify-center space-x-4 mb-6">
+            <div className="animate-float">
+              <Code className="h-8 w-8 text-blue-600" />
+            </div>
+            <div className="animate-float" style={{ animationDelay: '0.5s' }}>
+              <Database className="h-8 w-8 text-purple-600" />
+            </div>
+            <div className="animate-float" style={{ animationDelay: '1s' }}>
+              <Cloud className="h-8 w-8 text-green-600" />
+            </div>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
+            <span className="gradient-text">Alex Johnson</span>
+          </h1>
+          
+          <p className="text-2xl md:text-3xl font-light text-gray-600 dark:text-gray-300 mb-6">
+            DevOps Engineer & Full-Stack Developer
+          </p>
+          
+          <div className="max-w-2xl mx-auto mb-8">
+            <p className="text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300">
+              Passionate about building scalable infrastructure and crafting elegant solutions. 
+              I specialize in cloud architecture, automation, and modern web development 
+              with a focus on performance and user experience.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              onClick={scrollToProjects}
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              View My Work
+            </Button>
+            
+            <Button
+              onClick={downloadCV}
+              variant="outline"
+              size="lg"
+              className="px-8 py-4 rounded-full border-2 border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400 transition-all duration-300 transform hover:scale-105"
+            >
+              <Download className="h-5 w-5 mr-2" />
+              Download CV
+            </Button>
+          </div>
+        </div>
+        
+        <div className="animate-bounce mt-16">
+          <ArrowDown className="h-6 w-6 mx-auto text-gray-400" />
+        </div>
+      </div>
+      
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-green-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+    </section>
+  );
+}
