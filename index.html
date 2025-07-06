@@ -9,6 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // Immediate theme detection to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <!-- Theme Toggle -->
@@ -57,38 +66,184 @@
                         Hi, I'm <span class="gradient-text">Ron Burshtein</span>
                     </h1>
                     <p class="hero-subtitle">
-                        Software Developer • AI Enthusiast • Open Source Contributor
+                        DevOps Engineer • AI Enthusiast • Cloud Solutions Architect
                     </p>
                     <p class="hero-description">
-                        Passionate about building innovative solutions that bridge the gap between AI and real-world applications.
+                        Passionate about building scalable infrastructure and automating deployment pipelines. I specialize in cloud architecture, containerization, and CI/CD while bridging the gap between development and operations.
                     </p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-code"></i>
-                            View My Work
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-envelope"></i>
-                            Get In Touch
-                        </a>
+                </div>
+            </div>
+            
+            <!-- Hero Action Buttons -->
+            <div class="hero-actions">
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-code"></i>
+                        View My Work
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+            
+            <!-- DevOps Pipeline Demo Section -->
+            <div class="pipeline-section">
+                <div class="pipeline-demo">
+                    <div class="demo-header">
+                        <div class="demo-info">
+                            <h3 class="demo-title">Interactive DevOps Pipeline</h3>
+                            <p class="demo-subtitle">Experience a complete CI/CD workflow demonstration</p>
+                        </div>
+                        <button class="run-btn" onclick="simulatePipeline()">
+                            <i class="fas fa-play"></i>
+                            <span>Run Demo</span>
+                        </button>
+                    </div>
+                    
+                    <div class="stages-grid">
+                        <!-- Row 1: Development Phase -->
+                        <div class="stage-row">
+                            <div class="stage-item" data-stage="commit">
+                                <div class="stage-icon commit">
+                                    <i class="fab fa-git-alt"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Commit</h4>
+                                    <span class="stage-desc">Push code</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            
+                            <div class="stage-item" data-stage="build">
+                                <div class="stage-icon build">
+                                    <i class="fas fa-hammer"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Build</h4>
+                                    <span class="stage-desc">Compile app</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            
+                            <div class="stage-item" data-stage="unit-tests">
+                                <div class="stage-icon test">
+                                    <i class="fas fa-vial"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Test</h4>
+                                    <span class="stage-desc">Unit testing</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Vertical Arrow -->
+                        <div class="vertical-flow">
+                            <div class="flow-line"></div>
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        
+                        <!-- Row 2: Deployment Phase -->
+                        <div class="stage-row reverse">
+                            <div class="stage-item" data-stage="package">
+                                <div class="stage-icon package">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Package</h4>
+                                    <span class="stage-desc">Create artifacts</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            
+                            <div class="stage-item" data-stage="e2e-tests">
+                                <div class="stage-icon e2e">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">E2E Test</h4>
+                                    <span class="stage-desc">Integration</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            
+                            <div class="stage-item" data-stage="publish">
+                                <div class="stage-icon publish">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Publish</h4>
+                                    <span class="stage-desc">To registry</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Final Arrow -->
+                        <div class="final-flow">
+                            <div class="flow-line"></div>
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        
+                        <!-- Row 3: Production -->
+                        <div class="stage-row final">
+                            <div class="stage-item deploy-stage" data-stage="deploy">
+                                <div class="stage-icon deploy">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="stage-info">
+                                    <h4 class="stage-name">Deploy</h4>
+                                    <span class="stage-desc">Go live in production</span>
+                                </div>
+                                <div class="stage-status" data-status="pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="floating-elements">
-                        <div class="floating-card card-1">
-                            <i class="fab fa-python"></i>
-                        </div>
-                        <div class="floating-card card-2">
-                            <i class="fab fa-react"></i>
-                        </div>
-                        <div class="floating-card card-3">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div class="floating-card card-4">
-                            <i class="fab fa-github"></i>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+        
+        <!-- Background Elements -->
+        <div class="hero-bg-elements">
+            <div class="bg-circle circle-1"></div>
+            <div class="bg-circle circle-2"></div>
+            <div class="bg-circle circle-3"></div>
+            <div class="code-lines">
+                <div class="code-line line-1"></div>
+                <div class="code-line line-2"></div>
+                <div class="code-line line-3"></div>
             </div>
         </div>
     </section>
@@ -196,6 +351,35 @@
                     </div>
                 </div>
                 <div class="skill-category">
+                    <h3>DevOps & Cloud Infrastructure</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-docker"></i>
+                            <span>Docker</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-aws"></i>
+                            <span>AWS</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cubes"></i>
+                            <span>Terraform</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cogs"></i>
+                            <span>Jenkins</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-server"></i>
+                            <span>Kubernetes</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-git-alt"></i>
+                            <span>CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
                     <h3>Tools & Platforms</h3>
                     <div class="skill-items">
                         <div class="skill-item">
@@ -203,12 +387,12 @@
                             <span>Git & GitHub</span>
                         </div>
                         <div class="skill-item">
-                            <i class="fab fa-docker"></i>
-                            <span>Docker</span>
-                        </div>
-                        <div class="skill-item">
                             <i class="fas fa-database"></i>
                             <span>SQL</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-linux"></i>
+                            <span>Linux</span>
                         </div>
                     </div>
                 </div>
@@ -225,11 +409,16 @@
             </div>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-camera"></i>
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="project-meta">
+                            <h3 class="project-title">Face Recognition App</h3>
+                            <p class="project-category">Computer Vision</p>
+                        </div>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Face Recognition App</h3>
                         <p class="project-description">
                             A real-time facial recognition system using OpenCV and dlib with high accuracy 
                             and performance optimization.
@@ -238,25 +427,36 @@
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">OpenCV</span>
                             <span class="tech-tag">dlib</span>
+                            <span class="tech-tag">NumPy</span>
                         </div>
+                    </div>
+                    <div class="project-footer">
                         <div class="project-links">
                             <a href="https://github.com/RonBurshtein100/face-recognition" target="_blank" class="project-link">
                                 <i class="fab fa-github"></i>
-                                GitHub
+                                Code
                             </a>
                             <a href="#" class="project-link">
                                 <i class="fas fa-external-link-alt"></i>
-                                Live Demo
+                                Demo
                             </a>
+                        </div>
+                        <div class="project-status">
+                            <span class="status-badge completed">Completed</span>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-brain"></i>
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="project-meta">
+                            <h3 class="project-title">AI Chat Assistant</h3>
+                            <p class="project-category">Artificial Intelligence</p>
+                        </div>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">AI Chat Assistant</h3>
                         <p class="project-description">
                             An intelligent chatbot powered by natural language processing with context awareness 
                             and personalized responses.
@@ -264,26 +464,37 @@
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">TensorFlow</span>
                             <span class="tech-tag">React</span>
                         </div>
+                    </div>
+                    <div class="project-footer">
                         <div class="project-links">
                             <a href="#" class="project-link">
                                 <i class="fab fa-github"></i>
-                                GitHub
+                                Code
                             </a>
                             <a href="#" class="project-link">
                                 <i class="fas fa-external-link-alt"></i>
-                                Live Demo
+                                Demo
                             </a>
+                        </div>
+                        <div class="project-status">
+                            <span class="status-badge in-progress">In Progress</span>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-chart-line"></i>
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="project-meta">
+                            <h3 class="project-title">Data Visualization Dashboard</h3>
+                            <p class="project-category">Full Stack Development</p>
+                        </div>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Data Visualization Dashboard</h3>
                         <p class="project-description">
                             Interactive dashboard for real-time data analysis with customizable charts 
                             and advanced filtering capabilities.
@@ -292,16 +503,22 @@
                             <span class="tech-tag">React</span>
                             <span class="tech-tag">D3.js</span>
                             <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
                         </div>
+                    </div>
+                    <div class="project-footer">
                         <div class="project-links">
                             <a href="#" class="project-link">
                                 <i class="fab fa-github"></i>
-                                GitHub
+                                Code
                             </a>
                             <a href="#" class="project-link">
                                 <i class="fas fa-external-link-alt"></i>
-                                Live Demo
+                                Demo
                             </a>
+                        </div>
+                        <div class="project-status">
+                            <span class="status-badge planning">Planning</span>
                         </div>
                     </div>
                 </div>

@@ -25,6 +25,27 @@ class ThemeManager {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         this.setTheme(newTheme);
+        
+        // Update navbar background immediately after theme change
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            const isDark = newTheme === 'dark';
+            if (window.scrollY > 100) {
+                if (isDark) {
+                    navbar.style.background = 'rgba(15, 23, 42, 0.98)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.4)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                }
+            } else {
+                if (isDark) {
+                    navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                }
+            }
+        }
     }
 
     bindEvents() {
@@ -99,11 +120,21 @@ class NavigationManager {
         
         if (navbar) {
             window.addEventListener('scroll', () => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                 if (window.scrollY > 100) {
-                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    if (isDark) {
+                        navbar.style.background = 'rgba(15, 23, 42, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.4)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    }
                 } else {
-                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    if (isDark) {
+                        navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    }
                     navbar.style.boxShadow = 'none';
                 }
             });
@@ -137,8 +168,8 @@ class AnimationManager {
             });
         }, observerOptions);
 
-        // Observe elements for fade-in animation
-        const animatedElements = document.querySelectorAll('.skill-category, .project-card, .contact-item');
+        // Observe elements for fade-in animation (excluding project cards for static design)
+        const animatedElements = document.querySelectorAll('.skill-category, .contact-item');
         animatedElements.forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
@@ -148,17 +179,8 @@ class AnimationManager {
     }
 
     addParallaxEffect() {
-        const floatingCards = document.querySelectorAll('.floating-card');
-        
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-
-            floatingCards.forEach((card, index) => {
-                const speed = 0.5 + (index * 0.1);
-                card.style.transform = `translateY(${rate * speed}px)`;
-            });
-        });
+        // Parallax effect disabled for static design
+        // Keeping method for potential future use
     }
 }
 
@@ -352,6 +374,161 @@ class Utils {
     }
 }
 
+// CI/CD Pipeline Simulation
+class PipelineManager {
+    constructor() {
+        this.stages = [
+            'commit', 'build', 'unit-tests', 'package', 
+            'e2e-tests', 'publish', 'deploy'
+        ];
+        this.isRunning = false;
+        this.init();
+    }
+
+    init() {
+        this.resetPipeline();
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        // Add hover effects for stage items
+        const stageItems = document.querySelectorAll('.stage-item');
+        stageItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = '';
+            });
+        });
+    }
+
+    async simulatePipeline() {
+        if (this.isRunning) return;
+        
+        this.isRunning = true;
+        const runBtn = document.querySelector('.run-btn');
+        
+        // Update button state
+        if (runBtn) {
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Running...</span>';
+            runBtn.disabled = true;
+        }
+
+        // Reset all stages
+        this.resetPipeline();
+
+        // Run through each stage
+        for (let i = 0; i < this.stages.length; i++) {
+            const stage = this.stages[i];
+            await this.runStage(stage, i);
+        }
+
+        // Reset button
+        if (runBtn) {
+            runBtn.innerHTML = '<i class="fas fa-play"></i> <span>Run Demo</span>';
+            runBtn.disabled = false;
+        }
+        
+        this.isRunning = false;
+        
+        // Show completion notification
+        const formManager = new FormManager();
+        formManager.showNotification('Pipeline completed successfully! 🚀', 'success');
+    }
+
+    async runStage(stageName, index) {
+        const stageElement = document.querySelector(`[data-stage="${stageName}"]`);
+        const statusElement = stageElement?.querySelector('.stage-status');
+        
+        if (!statusElement) return;
+
+        // Set running status
+        this.setStageStatus(statusElement, 'running');
+        
+        // Add running animation to stage item
+        const stageItem = stageElement;
+        if (stageItem) {
+            stageItem.style.borderColor = '#3b82f6';
+            stageItem.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+        }
+
+        // Simulate stage duration (1-3 seconds)
+        const duration = Math.random() * 2000 + 1000;
+        await this.delay(duration);
+
+        // Random success/failure (95% success rate)
+        const isSuccess = Math.random() > 0.05;
+        
+        if (isSuccess) {
+            this.setStageStatus(statusElement, 'success');
+            if (stageItem) {
+                stageItem.style.borderColor = '#10b981';
+                stageItem.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+            }
+        } else {
+            this.setStageStatus(statusElement, 'failed');
+            if (stageItem) {
+                stageItem.style.borderColor = '#ef4444';
+                stageItem.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)';
+            }
+            // Stop pipeline on failure
+            throw new Error(`Stage ${stageName} failed`);
+        }
+
+        // Reset stage item styling after a short delay
+        setTimeout(() => {
+            if (stageItem) {
+                stageItem.style.borderColor = '';
+                stageItem.style.boxShadow = '';
+            }
+        }, 1000);
+    }
+
+    setStageStatus(statusElement, status) {
+        statusElement.setAttribute('data-status', status);
+        
+        const iconMap = {
+            pending: 'fas fa-clock',
+            running: 'fas fa-spinner',
+            success: 'fas fa-check-circle',
+            failed: 'fas fa-times-circle'
+        };
+        
+        const icon = statusElement.querySelector('i');
+        if (icon) {
+            icon.className = iconMap[status];
+        }
+    }
+
+    resetPipeline() {
+        this.stages.forEach(stageName => {
+            const stageElement = document.querySelector(`[data-stage="${stageName}"]`);
+            const statusElement = stageElement?.querySelector('.stage-status');
+            
+            if (statusElement) {
+                this.setStageStatus(statusElement, 'pending');
+            }
+        });
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Global function for the button onclick
+function simulatePipeline() {
+    if (window.pipelineManager) {
+        window.pipelineManager.simulatePipeline().catch(error => {
+            console.log('Pipeline failed:', error.message);
+            const formManager = new FormManager();
+            formManager.showNotification('Pipeline failed! Check the logs.', 'error');
+        });
+    }
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all managers
@@ -359,6 +536,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new NavigationManager();
     new AnimationManager();
     new FormManager();
+    
+    // Initialize pipeline manager
+    window.pipelineManager = new PipelineManager();
 
     // Add loading animation
     document.body.style.opacity = '0';
