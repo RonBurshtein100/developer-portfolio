@@ -196,7 +196,7 @@ class FormManager {
     }
 
     bindFormSubmit() {
-        const contactForm = document.querySelector('.contact-form form');
+        const contactForm = document.querySelector('.contact-form-fields');
         
         if (contactForm) {
             contactForm.addEventListener('submit', (e) => {
@@ -206,9 +206,14 @@ class FormManager {
         }
     }
 
-    handleFormSubmit(form) {
+    async handleFormSubmit(form) {
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+        const data = {
+            from_name: formData.get('from_name'),
+            from_email: formData.get('from_email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
         
         // Show loading state
         const submitBtn = form.querySelector('button[type="submit"]');
@@ -216,13 +221,86 @@ class FormManager {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitBtn.disabled = true;
 
-        // Simulate form submission (replace with actual API call)
-        setTimeout(() => {
-            this.showNotification('Message sent successfully!', 'success');
-            form.reset();
+        try {
+            // Check if EmailJS is available and configured
+            if (typeof emailjs !== 'undefined' && typeof CONFIG !== 'undefined') {
+                // Use configuration from config.js
+                const { publicKey, serviceId, autoReplyTemplateId } = CONFIG.emailjs;
+                
+                // Check if configuration is available
+                if (!publicKey || !serviceId || !autoReplyTemplateId) {
+                    throw new Error('EmailJS configuration is incomplete in config.js');
+                }
+                
+                // Initialize EmailJS
+                emailjs.init(publicKey);
+                
+                // Send auto-reply to the form submitter
+                console.log('Sending auto-reply with:', { serviceId, autoReplyTemplateId, publicKey });
+                
+                const templateParams = {
+                    to_email: data.from_email, // Send TO the person who submitted the form
+                    to_name: data.from_name,   // Their name
+                    user_name: data.from_name, // For personalization in template
+                    user_email: data.from_email,
+                    subject: data.subject,
+                    message: data.message,
+                    reply_to: CONFIG.personal.email // Your email for replies
+                };
+                
+                console.log('Auto-reply template params being sent:', templateParams);
+                
+                const response = await emailjs.send(
+                    serviceId,
+                    autoReplyTemplateId,
+                    templateParams
+                );
+                
+                console.log('EmailJS Auto-reply Response:', response);
+                
+                if (response.status === 200) {
+                    this.showNotification('Thank you! A confirmation email has been sent to you. 📧', 'success');
+                    form.reset();
+                } else {
+                    console.log('Failed with status:', response.status);
+                    throw new Error(`Failed to send auto-reply: ${response.status}`);
+                }
+            } else {
+                // EmailJS not loaded
+                this.showNotification('⚠️ EmailJS not loaded. Please check your internet connection.', 'error');
+                console.log('Form data:', data); // For testing
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            
+            if (error.message.includes('not configured')) {
+                this.showNotification('⚙️ Setup needed: Please configure EmailJS credentials in the code. Check console for details.', 'info');
+                console.log('\n📧 EmailJS Setup Instructions:');
+                console.log('1. Sign up at https://www.emailjs.com');
+                console.log('2. Connect your Gmail account');
+                console.log('3. Create an email template');
+                console.log('4. Replace credentials in js/script.js lines 228-230');
+                console.log('\nForm data that would be sent:', data);
+            } else if (error.status === 422) {
+                // 422 Unprocessable Entity - validation error
+                this.showNotification(`❌ EmailJS Validation Error: ${error.text || 'Check template configuration'}`, 'error');
+                console.log('422 Error Details:', error);
+                console.log('This usually means:');
+                console.log('1. Template variables don\'t match form field names');
+                console.log('2. Required template fields are missing');
+                console.log('3. Email service configuration issue');
+            } else if (error.text) {
+                // EmailJS specific error
+                this.showNotification(`❌ EmailJS Error: ${error.text}`, 'error');
+                console.log('EmailJS Error Details:', error);
+            } else {
+                this.showNotification('❌ Failed to send message. Please try again or contact directly.', 'error');
+                console.log('General Error:', error);
+            }
+        } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-        }, 2000);
+        }
     }
 
     addInputValidation() {
@@ -308,7 +386,7 @@ class FormManager {
             position: 'fixed',
             top: '2rem',
             right: '2rem',
-            background: type === 'success' ? '#10b981' : '#6366f1',
+            background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#6366f1',
             color: 'white',
             padding: '1rem 1.5rem',
             borderRadius: '0.5rem',
@@ -391,15 +469,17 @@ class PipelineManager {
     }
 
     bindEvents() {
-        // Add hover effects for stage items
-        const stageItems = document.querySelectorAll('.stage-item');
-        stageItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateY(-5px) scale(1.05)';
+        // Enhanced hover effects for stage cards (CSS handles basic hover)
+        const stageCards = document.querySelectorAll('.stage-card');
+        stageCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // CSS handles the transform, just ensure no conflicts
+                card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
             
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = '';
+            card.addEventListener('mouseleave', () => {
+                // Let CSS handle the reset
+                card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
         });
     }
@@ -447,11 +527,12 @@ class PipelineManager {
         // Set running status
         this.setStageStatus(statusElement, 'running');
         
-        // Add running animation to stage item
-        const stageItem = stageElement;
-        if (stageItem) {
-            stageItem.style.borderColor = '#3b82f6';
-            stageItem.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+        // Add running animation to stage card
+        const stageCard = stageElement.querySelector('.stage-card');
+        if (stageCard) {
+            stageCard.style.borderColor = '#3b82f6';
+            stageCard.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+            stageCard.style.transform = 'scale(1.05)';
         }
 
         // Simulate stage duration (1-3 seconds)
@@ -463,27 +544,30 @@ class PipelineManager {
         
         if (isSuccess) {
             this.setStageStatus(statusElement, 'success');
-            if (stageItem) {
-                stageItem.style.borderColor = '#10b981';
-                stageItem.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+            if (stageCard) {
+                stageCard.style.borderColor = '#10b981';
+                stageCard.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.4)';
+                stageCard.style.transform = 'scale(1.1)';
             }
         } else {
             this.setStageStatus(statusElement, 'failed');
-            if (stageItem) {
-                stageItem.style.borderColor = '#ef4444';
-                stageItem.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)';
+            if (stageCard) {
+                stageCard.style.borderColor = '#ef4444';
+                stageCard.style.boxShadow = '0 0 25px rgba(239, 68, 68, 0.4)';
+                stageCard.style.transform = 'scale(1.05)';
             }
             // Stop pipeline on failure
             throw new Error(`Stage ${stageName} failed`);
         }
 
-        // Reset stage item styling after a short delay
+        // Reset stage card styling after a short delay
         setTimeout(() => {
-            if (stageItem) {
-                stageItem.style.borderColor = '';
-                stageItem.style.boxShadow = '';
+            if (stageCard) {
+                stageCard.style.borderColor = '';
+                stageCard.style.boxShadow = '';
+                stageCard.style.transform = '';
             }
-        }, 1000);
+        }, 1500);
     }
 
     setStageStatus(statusElement, status) {

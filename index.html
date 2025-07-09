@@ -4,11 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ron Burshtein - Developer Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%236366f1;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%238b5cf6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23grad)'/%3E%3Ctext x='50' y='65' font-family='monospace' font-size='45' font-weight='bold' text-anchor='middle' fill='white'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMHSURBVFhH7VdLaBRBEK2Z3QQSEyPGKF68ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL168ePHixYsXL1685l91VXVPT8/sbGdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dn1tZmJhMAAA==">
+    
     <link rel="stylesheet" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         // Immediate theme detection to prevent flash
         (function() {
@@ -102,10 +109,9 @@
                         </button>
                     </div>
                     
-                    <div class="stages-grid">
-                        <!-- Row 1: Development Phase -->
-                        <div class="stage-row">
-                            <div class="stage-item" data-stage="commit">
+                    <div class="pipeline-flow">
+                        <div class="stage-item" data-stage="commit">
+                            <div class="stage-card">
                                 <div class="stage-icon commit">
                                     <i class="fab fa-git-alt"></i>
                                 </div>
@@ -117,35 +123,45 @@
                                     <i class="fas fa-clock"></i>
                                 </div>
                             </div>
-                            
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-right"></i>
+                        </div>
+                        
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            
-                            <div class="stage-item" data-stage="build">
+                        </div>
+                        
+                        <div class="stage-item" data-stage="build">
+                            <div class="stage-card">
                                 <div class="stage-icon build">
                                     <i class="fas fa-hammer"></i>
                                 </div>
                                 <div class="stage-info">
                                     <h4 class="stage-name">Build</h4>
-                                    <span class="stage-desc">Compile app</span>
+                                    <span class="stage-desc">Compile code</span>
                                 </div>
                                 <div class="stage-status" data-status="pending">
                                     <i class="fas fa-clock"></i>
                                 </div>
                             </div>
-                            
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-right"></i>
+                        </div>
+                        
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            
-                            <div class="stage-item" data-stage="unit-tests">
+                        </div>
+                        
+                        <div class="stage-item" data-stage="unit-tests">
+                            <div class="stage-card">
                                 <div class="stage-icon test">
                                     <i class="fas fa-vial"></i>
                                 </div>
                                 <div class="stage-info">
                                     <h4 class="stage-name">Test</h4>
-                                    <span class="stage-desc">Unit testing</span>
+                                    <span class="stage-desc">Unit tests</span>
                                 </div>
                                 <div class="stage-status" data-status="pending">
                                     <i class="fas fa-clock"></i>
@@ -153,32 +169,37 @@
                             </div>
                         </div>
                         
-                        <!-- Vertical Arrow -->
-                        <div class="vertical-flow">
-                            <div class="flow-line"></div>
-                            <i class="fas fa-arrow-down"></i>
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         </div>
                         
-                        <!-- Row 2: Deployment Phase -->
-                        <div class="stage-row reverse">
-                            <div class="stage-item" data-stage="package">
+                        <div class="stage-item" data-stage="package">
+                            <div class="stage-card">
                                 <div class="stage-icon package">
                                     <i class="fas fa-box"></i>
                                 </div>
                                 <div class="stage-info">
                                     <h4 class="stage-name">Package</h4>
-                                    <span class="stage-desc">Create artifacts</span>
+                                    <span class="stage-desc">Create package</span>
                                 </div>
                                 <div class="stage-status" data-status="pending">
                                     <i class="fas fa-clock"></i>
                                 </div>
                             </div>
-                            
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-left"></i>
+                        </div>
+                        
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            
-                            <div class="stage-item" data-stage="e2e-tests">
+                        </div>
+                        
+                        <div class="stage-item" data-stage="e2e-tests">
+                            <div class="stage-card">
                                 <div class="stage-icon e2e">
                                     <i class="fas fa-robot"></i>
                                 </div>
@@ -190,12 +211,17 @@
                                     <i class="fas fa-clock"></i>
                                 </div>
                             </div>
-                            
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-left"></i>
+                        </div>
+                        
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            
-                            <div class="stage-item" data-stage="publish">
+                        </div>
+                        
+                        <div class="stage-item" data-stage="publish">
+                            <div class="stage-card">
                                 <div class="stage-icon publish">
                                     <i class="fas fa-cloud-upload-alt"></i>
                                 </div>
@@ -209,21 +235,21 @@
                             </div>
                         </div>
                         
-                        <!-- Final Arrow -->
-                        <div class="final-flow">
-                            <div class="flow-line"></div>
-                            <i class="fas fa-arrow-down"></i>
+                        <div class="flow-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         </div>
                         
-                        <!-- Row 3: Production -->
-                        <div class="stage-row final">
-                            <div class="stage-item deploy-stage" data-stage="deploy">
+                        <div class="stage-item" data-stage="deploy">
+                            <div class="stage-card deploy-card">
                                 <div class="stage-icon deploy">
                                     <i class="fas fa-rocket"></i>
                                 </div>
                                 <div class="stage-info">
                                     <h4 class="stage-name">Deploy</h4>
-                                    <span class="stage-desc">Go live in production</span>
+                                    <span class="stage-desc">Go live!</span>
                                 </div>
                                 <div class="stage-status" data-status="pending">
                                     <i class="fas fa-clock"></i>
@@ -541,7 +567,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>Email</h4>
-                            <p>ron@example.com</p>
+                            <p>ronbur10@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -550,7 +576,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>LinkedIn</h4>
-                            <a href="https://linkedin.com/in/ronburshtein" target="_blank">linkedin.com/in/ronburshtein</a>
+                            <a href="https://linkedin.com/in/ron-burshtein" target="_blank">linkedin.com/in/ron-burshtein</a>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -564,12 +590,19 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    <div class="contact-cta">
+                        <h3>Get In Touch</h3>
+                        <p>Let's discuss how we can work together to bring your ideas to life. Fill out the form below and I'll get back to you within 24 hours.</p>
+                    </div>
+                    
+                    <form class="contact-form-fields">
+                        <div class="form-row">
+                            <div class="form-group">
+                            <input type="text" id="from_name" name="from_name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="from_email" name="from_email" placeholder="Your Email" required>
+                            </div>
                         </div>
                         <div class="form-group">
                             <input type="text" id="subject" name="subject" placeholder="Subject" required>
@@ -582,6 +615,11 @@
                             Send Message
                         </button>
                     </form>
+                    
+                    <div class="contact-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Messages are sent directly to my Gmail inbox</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -609,6 +647,7 @@
         </div>
     </footer>
 
+    <script src="js/config.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

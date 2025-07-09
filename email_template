@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thanks for Reaching Out</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap');
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0d0d0d;
+      color: #f0f0f0;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .button {
+      display: inline-block;
+      padding: 14px 24px;
+      margin: 10px;
+      background: #1f1f1f;
+      color: #ffffff !important;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      border: 1px solid #2c2c2c;
+    }
+    .button:hover {
+      background: linear-gradient(135deg, #1a1aff, #6600ff);
+    }
+    .button img {
+      vertical-align: middle;
+      margin-right: 8px;
+      height: 20px;
+      width: 20px;
+    }
+    @media screen and (max-width: 600px) {
+      .button {
+        display: block;
+        width: 80% !important;
+        margin: 12px auto;
+      }
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 40px 20px;
+      background: linear-gradient(145deg, #121212, #1c1c1c);
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      box-shadow: 0 0 24px rgba(0, 255, 255, 0.1);
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #00ffff;
+      text-align: center;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: center;
+      color: #cccccc;
+    }
+    .button-cell {
+      text-align: center;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <center>
+    <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#0d0d0d">
+      <tr>
+        <td align="center">
+          <div class="container">
+            <h1>Thanks for Reaching Out!</h1>
+            <p>Hey there,<br><br>
+              I appreciate you taking the time to connect through my portfolio. This is a confirmation that your message has been received — and I'm excited to check it out!<br><br>
+              Please note this is a no-reply message, but feel free to explore more ways to reach me below.
+            </p>
+            <div class="button-cell">
+              <a href="mailto:ronbur10@gmail.com" class="button">
+                <img src="https://img.icons8.com/ios-filled/24/ffffff/email.png" alt="Email Icon" />
+                Send Me an Email
+              </a>
+              <a href="https://linkedin.com/in/ron-burshtein" class="button" target="_blank">
+                <img src="https://img.icons8.com/ios-filled/24/ffffff/linkedin.png" alt="LinkedIn Icon" />
+                View My LinkedIn
+              </a>
+              <a href="https://github.com/RonBurshtein100" class="button" target="_blank">
+                <img src="https://img.icons8.com/ios-glyphs/24/ffffff/github.png" alt="GitHub Icon" />
+                Visit My GitHub
+              </a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </center>
+</body>
+</html>
